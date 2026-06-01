@@ -1,0 +1,14 @@
+{
+  "versions": [
+    {
+      "id": "2.2081",
+      "display_name": "Geometry Dash 2.2081",
+      "game_url": "https://github.com/BlueAxolotLArseniy/GDI-Launcher/releases/download/v1.0.0/gd_2.2081.zip",
+      "geode": {
+        "supported": true,
+        "url": "https://github.com/BlueAxolotLArseniy/GDI-Launcher/releases/download/v1.0.0/geode_2.2081.zip"
+      }
+    }
+    
+  ]
+}
