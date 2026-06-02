@@ -1,13 +1,42 @@
-# Geometry Dash Instances Launcher
+# GDI Launcher 🚀
 
-**GDI Launcher** — это лаунчер для одноименной игры Geometry Dash. Он написан на языке `Python` с использованием `PySide6`. Почти полностью написан при помощи ЛЛМ, но это не мешает этому лаунчеру быть удобным и простым. 
+**The ultimate instance manager for Geometry Dash.**
 
-## Почему именно мы?
+GDI Launcher (GDIL) is a lightweight, powerful utility built with **Python** and **PySide6**. Born from AI-driven development and community needs, it is designed to be the simplest, most intuitive way to manage your Geometry Dash experience.
 
-GDIL предлагает скромный ассортимент функций, но он единственный в своём роде. Нет ни одного лаунчера для Geometry Dash, который смог бы хоть как-то переплюнуть GDIL. Тем не менее, функционал GDIL пополняется постоянно.
+---
 
-## Как скачать?
+## ⚡ Why Choose GDI Launcher?
 
-Для скачивания нашего лаунчера, вам нужно будет перейти по ссылке ниже, а после следовать указаниям мастера установки.
+Stop wasting time navigating complex file structures. GDIL puts you in control.
 
-[**Спасибо, что выбираете нас**](https://github.com/BlueAxolotLArseniy/GDI-Launcher/releases/download/v1.0.0/GDI_Launcher_Setup.exe)
+* **Unmatched Simplicity:** A clean, modern UI that works exactly how you expect it to.
+* **Purpose-Built:** We don't bloat your system with useless features—only what you need to play.
+* **Evolving:** Constantly updated and optimized based on user feedback.
+* **The Go-To Choice:** Tired of bloated, legacy alternatives? GDIL is the streamlined solution the community has been waiting for.
+
+---
+
+## 📥 Get Started
+
+Ready to upgrade your gameplay? Click below to download the latest installer:
+
+[**Download GDI Launcher v1.0.0**](https://github.com/BlueAxolotLArseniy/GDI-Launcher/releases/download/v1.0.0/GDI_Launcher_Setup.exe)
+
+*Simple. Fast. Built for players.*
+
+---
+
+## 🛠 Tech Stack
+* **Language:** Python
+* **GUI Framework:** PySide6
+* **Core Logic:** Designed for seamless instance management.
+
+---
+
+## 💬 Feedback & Support
+Found a bug or have an idea to make GDIL even better? 
+Open an **[Issue](https://github.com/BlueAxolotLArseniy/GDI-Launcher/issues)** or let us know!
+
+---
+*Built with passion for the GD community.*
