@@ -20,7 +20,6 @@ from PySide6.QtGui import QIcon
 from gdi_launcher.config import BASE_ASSETS_DIR
 
 import ctypes
-import sys
 
 # Добавь это сразу после всех импортов
 if sys.platform == "win32":
