@@ -1,4 +1,4 @@
-# GDI Launcher 🚀
+# 🚀 GDI Launcher
 
 **The ultimate instance manager for Geometry Dash.**
 

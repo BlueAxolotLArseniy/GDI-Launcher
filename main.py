@@ -8,19 +8,117 @@ from typing import Optional
 
 from PySide6.QtWidgets import (QApplication, QMainWindow, QWidget, QHBoxLayout, 
                              QVBoxLayout, QPushButton, QFrame, QLabel, 
-                             QScrollArea, QGridLayout)
-from PySide6.QtCore import Qt
+                             QScrollArea, QGridLayout, QInputDialog, QLineEdit, QMessageBox)
+from PySide6.QtCore import Qt, QUrl, Signal
 
 # Импортируем наши модули
-from gdi_launcher.config import MAX_COLUMNS, GITHUB_MANIFEST_URL, INSTANCES_DIR
+from gdi_launcher.config import GITHUB_MANIFEST_URL, INSTANCES_DIR
 from gdi_launcher.core import sync_and_run_instance
 from gdi_launcher.widgets import InstanceCard
 from gdi_launcher.dialogs import AddInstanceDialog, InstallProgressDialog, DeleteProgressDialog
-from PySide6.QtGui import QIcon
-from gdi_launcher.config import BASE_ASSETS_DIR
+from PySide6.QtGui import QDesktopServices, QIcon, QPixmap
+from gdi_launcher.config import BASE_ASSETS_DIR, GD_ICON_DEFAULT, GEODE_ICON_DEFAULT
 
 import ctypes
 import sys
+
+INVALID_INSTANCE_NAME_CHARS = set('<>:"/\\|?*')
+RESERVED_INSTANCE_NAMES = {
+    "CON", "PRN", "AUX", "NUL",
+    "COM1", "COM2", "COM3", "COM4", "COM5", "COM6", "COM7", "COM8", "COM9",
+    "LPT1", "LPT2", "LPT3", "LPT4", "LPT5", "LPT6", "LPT7", "LPT8", "LPT9",
+}
+
+
+class ActionRowButton(QFrame):
+    """Компактная кликабельная строка меню с отдельной колонкой для иконки."""
+    clicked = Signal()
+
+    def __init__(self, icon_text: str, text: str, danger: bool = False, parent=None) -> None:
+        super().__init__(parent)
+        self.setObjectName("ActionRowButton")
+        self.setCursor(Qt.PointingHandCursor)
+        self.setFixedHeight(24)
+        self.setMouseTracking(True)
+        self.setAttribute(Qt.WA_Hover, True)
+
+        self._danger = danger
+        self._build_ui(icon_text, text)
+        self._apply_style()
+
+    def _build_ui(self, icon_text: str, text: str) -> None:
+        layout = QHBoxLayout(self)
+        layout.setContentsMargins(7, 0, 7, 0)
+        layout.setSpacing(8)
+
+        self.icon_label = QLabel(icon_text)
+        self.icon_label.setFixedWidth(16)
+        self.icon_label.setAlignment(Qt.AlignCenter)
+        self.icon_label.setAttribute(Qt.WA_TransparentForMouseEvents, True)
+
+        self.text_label = QLabel(text)
+        self.text_label.setAlignment(Qt.AlignVCenter | Qt.AlignLeft)
+        self.text_label.setAttribute(Qt.WA_TransparentForMouseEvents, True)
+
+        layout.addWidget(self.icon_label)
+        layout.addWidget(self.text_label, 1)
+
+    def _apply_style(self) -> None:
+        if self._danger:
+            self.setStyleSheet("""
+                QFrame#ActionRowButton {
+                    background-color: transparent;
+                    border: none;
+                    border-radius: 3px;
+                }
+                QFrame#ActionRowButton:hover {
+                    background-color: #4a2626;
+                }
+                QFrame#ActionRowButton:pressed {
+                    background-color: #5a2b2b;
+                }
+                QFrame#ActionRowButton:disabled {
+                    background-color: transparent;
+                }
+                QFrame#ActionRowButton QLabel {
+                    color: #f4f4f4;
+                    font-size: 12px;
+                    font-weight: 600;
+                }
+                QFrame#ActionRowButton:disabled QLabel {
+                    color: #777777;
+                }
+            """)
+        else:
+            self.setStyleSheet("""
+                QFrame#ActionRowButton {
+                    background-color: transparent;
+                    border: none;
+                    border-radius: 3px;
+                }
+                QFrame#ActionRowButton:hover {
+                    background-color: #343434;
+                }
+                QFrame#ActionRowButton:pressed {
+                    background-color: #404040;
+                }
+                QFrame#ActionRowButton:disabled {
+                    background-color: transparent;
+                }
+                QFrame#ActionRowButton QLabel {
+                    color: #f4f4f4;
+                    font-size: 12px;
+                    font-weight: 600;
+                }
+                QFrame#ActionRowButton:disabled QLabel {
+                    color: #777777;
+                }
+            """)
+
+    def mousePressEvent(self, event) -> None:
+        if self.isEnabled() and event.button() == Qt.LeftButton:
+            self.clicked.emit()
+        super().mousePressEvent(event)
 
 # Добавь это сразу после всех импортов
 if sys.platform == "win32":
@@ -85,33 +183,130 @@ class GDIMainWindow(QMainWindow):
         right_panel.setStyleSheet("background-color: #252525;")
         right_panel.setFixedWidth(250)
         right_layout = QVBoxLayout(right_panel)
+        right_layout.setContentsMargins(12, 16, 12, 14)
+        right_layout.setSpacing(8)
+
+        self.lbl_selected_icon = QLabel()
+        self.lbl_selected_icon.setFixedSize(96, 96)
+        self.lbl_selected_icon.setAlignment(Qt.AlignCenter)
+        right_layout.addWidget(self.lbl_selected_icon, alignment=Qt.AlignHCenter)
         
         self.lbl_selected = QLabel("Выберите сборку")
         self.lbl_selected.setStyleSheet("color: white; font-weight: bold; font-size: 16px; margin-bottom: 10px;")
         self.lbl_selected.setAlignment(Qt.AlignCenter)
+        self.lbl_selected.setWordWrap(True)
         right_layout.addWidget(self.lbl_selected)
-        
-        btn_run = QPushButton("Запустить")
-        btn_run.setStyleSheet("background-color: #4CAF50; color: white; font-weight: bold; padding: 8px;")
-        btn_run.clicked.connect(self.run_selected_instance)
-        right_layout.addWidget(btn_run)
+        right_layout.addSpacing(8)
 
-        btn_delete = QPushButton("Удалить сборку")
-        btn_delete.setStyleSheet("background-color: #d32f2f; color: white; font-weight: bold; padding: 8px; margin-top: 5px;")
-        btn_delete.clicked.connect(self.delete_selected_instance)
-        right_layout.addWidget(btn_delete)
+        action_menu = QWidget()
+        action_layout = QVBoxLayout(action_menu)
+        action_layout.setContentsMargins(0, 0, 0, 0)
+        action_layout.setSpacing(1)
+        
+        self.btn_run = ActionRowButton("▶", "Запустить")
+        self.btn_run.clicked.connect(self.run_selected_instance)
+        action_layout.addWidget(self.btn_run)
+
+        self.btn_rename = ActionRowButton("⚙", "Переименовать...")
+        self.btn_rename.clicked.connect(self.rename_selected_instance)
+        action_layout.addWidget(self.btn_rename)
+
+        self.btn_open_folder = ActionRowButton("▸", "Папка")
+        self.btn_open_folder.clicked.connect(self.open_selected_instance_folder)
+        action_layout.addWidget(self.btn_open_folder)
+
+        self.btn_delete = ActionRowButton("⌫", "Удалить", danger=True)
+        self.btn_delete.clicked.connect(self.delete_selected_instance)
+        action_layout.addWidget(self.btn_delete)
+        right_layout.addWidget(action_menu)
         
         right_layout.addStretch()
         body_layout.addWidget(right_panel, stretch=1)
         
         main_layout.addLayout(body_layout)
+        self.update_side_panel()
 
     def handle_card_selection(self, clicked_card: InstanceCard) -> None:
         if self.selected_card:
             self.selected_card.set_selected_state(False)
         self.selected_card = clicked_card
         self.selected_card.set_selected_state(True)
-        self.lbl_selected.setText(clicked_card.instance_name)
+        self.update_side_panel()
+
+    def is_valid_instance_name(self, name: str) -> bool:
+        if not name or name in {".", ".."} or os.path.isabs(name):
+            return False
+        if name.rstrip(" .") != name:
+            return False
+        if any(char in INVALID_INSTANCE_NAME_CHARS for char in name):
+            return False
+        if name.upper() in RESERVED_INSTANCE_NAMES:
+            return False
+        return True
+
+    def get_instance_path(self, instance_name: str) -> str:
+        return os.path.normpath(os.path.join(INSTANCES_DIR, instance_name))
+
+    def instance_has_geode(self, instance_name: str) -> bool:
+        instance_path = self.get_instance_path(instance_name)
+        return (
+            os.path.exists(os.path.join(instance_path, "geode")) or
+            os.path.exists(os.path.join(instance_path, "Geode.dll"))
+        )
+
+    def get_icon_asset_path(self, asset_name: str, configured_path: str) -> str:
+        candidates = [
+            configured_path,
+            os.path.join(BASE_ASSETS_DIR, asset_name),
+            os.path.join(os.path.dirname(os.path.abspath(__file__)), "assets", asset_name),
+        ]
+        seen = set()
+        for path in candidates:
+            normalized = os.path.normpath(path)
+            if normalized in seen:
+                continue
+            seen.add(normalized)
+            if os.path.exists(normalized):
+                return normalized
+        return configured_path
+
+    def update_side_panel(self) -> None:
+        has_selection = self.selected_card is not None
+        for button in (self.btn_run, self.btn_rename, self.btn_open_folder, self.btn_delete):
+            button.setEnabled(has_selection)
+
+        if not has_selection:
+            self.lbl_selected_icon.hide() # Полностью скрываем элемент
+            self.lbl_selected.setText("Выберите сборку")
+            return
+
+        self.lbl_selected_icon.show() # Возвращаем элемент, если инстанс выбран
+
+        instance_name = self.selected_card.instance_name
+        has_geode = self.instance_has_geode(instance_name)
+        asset_name = "geode_icon.png" if has_geode else "gd_icon.png"
+        configured_icon = GEODE_ICON_DEFAULT if has_geode else GD_ICON_DEFAULT
+        chosen_icon = self.get_icon_asset_path(asset_name, configured_icon)
+
+        self.lbl_selected.setText(instance_name)
+        if os.path.exists(chosen_icon):
+            pix = QPixmap(chosen_icon)
+            if not pix.isNull():
+                self.lbl_selected_icon.setPixmap(pix.scaled(96, 96, Qt.KeepAspectRatio, Qt.SmoothTransformation))
+                self.lbl_selected_icon.setText("")
+                self.lbl_selected_icon.setStyleSheet("border: none;")
+                return
+
+        else:
+            print(f"[-] Иконка сборки не найдена: {chosen_icon}")
+
+        text_label = "GEODE" if has_geode else "GD"
+        color = "#a855f7" if has_geode else "#4CAF50"
+        self.lbl_selected_icon.setPixmap(QPixmap())
+        self.lbl_selected_icon.setText(text_label)
+        self.lbl_selected_icon.setStyleSheet(
+            f"color: {color}; font-weight: bold; border: 1px dashed {color}; border-radius: 8px;"
+        )
 
     def open_add_dialog(self) -> None:
         versions_list = []
@@ -136,8 +331,15 @@ class GDIMainWindow(QMainWindow):
             if not name or not version_info or not version_info.get("game_url"):
                 print("[-] Ошибка: Название инстанса или конфигурация некорректны.")
                 return
+            if not self.is_valid_instance_name(name):
+                QMessageBox.warning(
+                    self,
+                    "Некорректное название",
+                    "Название сборки не должно содержать символы пути или системные имена Windows."
+                )
+                return
             
-            target_dir = os.path.join(INSTANCES_DIR, name)
+            target_dir = self.get_instance_path(name)
             if os.path.exists(target_dir):
                 print(f"[-] Ошибка: инстанс '{name}' уже создан!")
                 return
@@ -161,7 +363,7 @@ class GDIMainWindow(QMainWindow):
         self.selected_card = None
 
         if not os.path.exists(INSTANCES_DIR):
-            self.lbl_selected.setText("Выберите сборку")
+            self.update_side_panel()
             return
 
         folders = [f for f in os.listdir(INSTANCES_DIR) 
@@ -175,8 +377,7 @@ class GDIMainWindow(QMainWindow):
                 self.selected_card = card
                 card.set_selected_state(True)
 
-        if not self.selected_card:
-            self.lbl_selected.setText("Выберите сборку")
+        self.update_side_panel()
 
         # Позиционируем их на экране
         self.rearrange_grid()
@@ -218,11 +419,78 @@ class GDIMainWindow(QMainWindow):
             return
 
         instance_name = self.selected_card.instance_name
-        target_dir = os.path.join(INSTANCES_DIR, instance_name)
+        reply = QMessageBox.question(
+            self,
+            "Удалить сборку?",
+            f"Удалить сборку '{instance_name}'? Это действие нельзя отменить.",
+            QMessageBox.Yes | QMessageBox.No,
+            QMessageBox.No
+        )
+        if reply != QMessageBox.Yes:
+            return
+
+        target_dir = self.get_instance_path(instance_name)
 
         progress_dialog = DeleteProgressDialog(target_dir, instance_name, self)
         progress_dialog.exec()
         self.refresh_instances()
+
+    def rename_selected_instance(self) -> None:
+        if not self.selected_card:
+            print("[-] Ошибка: Сначала выберите сборку для переименования!")
+            return
+
+        if self.current_process and self.current_process.poll() is None:
+            QMessageBox.warning(self, "Игра запущена", "Нельзя переименовать сборку, пока игра запущена.")
+            return
+
+        old_name = self.selected_card.instance_name
+        new_name, ok = QInputDialog.getText(
+            self,
+            "Переименовать сборку",
+            "Новое название:",
+            QLineEdit.Normal,
+            old_name
+        )
+        if not ok:
+            return
+
+        new_name = new_name.strip()
+        if new_name == old_name:
+            return
+        if not self.is_valid_instance_name(new_name):
+            QMessageBox.warning(
+                self,
+                "Некорректное название",
+                "Название сборки не должно содержать символы пути или системные имена Windows."
+            )
+            return
+
+        old_dir = self.get_instance_path(old_name)
+        new_dir = self.get_instance_path(new_name)
+        if os.path.exists(new_dir):
+            QMessageBox.warning(self, "Название занято", f"Сборка '{new_name}' уже существует.")
+            return
+
+        try:
+            os.rename(old_dir, new_dir)
+            self.selected_card.instance_name = new_name
+            self.refresh_instances()
+        except OSError as e:
+            QMessageBox.critical(self, "Ошибка переименования", f"Не удалось переименовать сборку:\n{e}")
+
+    def open_selected_instance_folder(self) -> None:
+        if not self.selected_card:
+            print("[-] Ошибка: Сначала выберите сборку!")
+            return
+
+        target_dir = self.get_instance_path(self.selected_card.instance_name)
+        if not os.path.exists(target_dir):
+            QMessageBox.warning(self, "Папка не найдена", "Папка выбранной сборки не найдена.")
+            return
+
+        if not QDesktopServices.openUrl(QUrl.fromLocalFile(target_dir)):
+            QMessageBox.warning(self, "Ошибка открытия", "Не удалось открыть папку сборки.")
     
     def rearrange_grid(self) -> None:
         if not hasattr(self, 'cards') or not self.cards:
