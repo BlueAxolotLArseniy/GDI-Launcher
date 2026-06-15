@@ -41,6 +41,8 @@ class ActionRowButton(QFrame):
         self.setFixedHeight(24)
         self.setMouseTracking(True)
         self.setAttribute(Qt.WA_Hover, True)
+        
+        self.setAttribute(Qt.WA_StyledBackground, True)
 
         self._danger = danger
         self._build_ui(icon_text, text)
@@ -64,56 +66,48 @@ class ActionRowButton(QFrame):
         layout.addWidget(self.text_label, 1)
 
     def _apply_style(self) -> None:
-        if self._danger:
-            self.setStyleSheet("""
-                QFrame#ActionRowButton {
-                    background-color: transparent;
-                    border: none;
-                    border-radius: 3px;
-                }
-                QFrame#ActionRowButton:hover {
-                    background-color: #4a2626;
-                }
-                QFrame#ActionRowButton:pressed {
-                    background-color: #5a2b2b;
-                }
-                QFrame#ActionRowButton:disabled {
-                    background-color: transparent;
-                }
-                QFrame#ActionRowButton QLabel {
-                    color: #f4f4f4;
-                    font-size: 12px;
-                    font-weight: 600;
-                }
-                QFrame#ActionRowButton:disabled QLabel {
-                    color: #777777;
-                }
-            """)
-        else:
-            self.setStyleSheet("""
-                QFrame#ActionRowButton {
-                    background-color: transparent;
-                    border: none;
-                    border-radius: 3px;
-                }
-                QFrame#ActionRowButton:hover {
-                    background-color: #343434;
-                }
-                QFrame#ActionRowButton:pressed {
-                    background-color: #404040;
-                }
-                QFrame#ActionRowButton:disabled {
-                    background-color: transparent;
-                }
-                QFrame#ActionRowButton QLabel {
-                    color: #f4f4f4;
-                    font-size: 12px;
-                    font-weight: 600;
-                }
-                QFrame#ActionRowButton:disabled QLabel {
-                    color: #777777;
-                }
-            """)
+        # Немного оптимизировали код, чтобы не дублировать огромные блоки
+        base_color = "#4a2626" if self._danger else "#343434"
+        pressed_color = "#5a2b2b" if self._danger else "#404040"
+        
+        self.setStyleSheet(f"""
+            #ActionRowButton {{
+                background-color: transparent;
+                border: none;
+                border-radius: 3px;
+            }}
+            #ActionRowButton:hover {{
+                background-color: {base_color};
+            }}
+            #ActionRowButton:pressed {{
+                background-color: {pressed_color};
+            }}
+            #ActionRowButton:disabled {{
+                background-color: transparent;
+            }}
+            
+            /* Явно запрещаем лейблам иметь свой фон, чтобы они не ломали заливку */
+            #ActionRowButton QLabel {{
+                background-color: transparent; 
+                color: #f4f4f4;
+                font-size: 12px;
+                font-weight: 600;
+            }}
+            #ActionRowButton:disabled QLabel {{
+                color: #777777;
+            }}
+        """)
+
+    # ДОБАВЬ ЭТОТ МЕТОД В КЛАСС ActionRowButton:
+    def paintEvent(self, event) -> None:
+        """Обязательный метод для корректной отрисовки background-color у кастомных виджетов в Qt"""
+        from PySide6.QtGui import QPainter
+        from PySide6.QtWidgets import QStyle, QStyleOption
+        opt = QStyleOption()
+        opt.initFrom(self)
+        painter = QPainter(self)
+        self.style().drawPrimitive(QStyle.PE_Widget, opt, painter, self)
+        super().paintEvent(event)
 
     def mousePressEvent(self, event) -> None:
         if self.isEnabled() and event.button() == Qt.LeftButton:
