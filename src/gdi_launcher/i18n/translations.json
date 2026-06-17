@@ -1,0 +1,372 @@
+{
+  "languages": {
+    "ru": {
+      "name": "Русский"
+    },
+    "en": {
+      "name": "English"
+    }
+  },
+  "phrases": {
+    "app.title": {
+      "ru": "GDI Launcher",
+      "en": "GDI Launcher"
+    },
+    "common.ok": {
+      "ru": "OK",
+      "en": "OK"
+    },
+    "common.cancel": {
+      "ru": "Отмена",
+      "en": "Cancel"
+    },
+    "common.save": {
+      "ru": "Сохранить",
+      "en": "Save"
+    },
+    "common.error": {
+      "ru": "Ошибка",
+      "en": "Error"
+    },
+    "first_run.title": {
+      "ru": "Выбор языка",
+      "en": "Language selection"
+    },
+    "first_run.prompt": {
+      "ru": "Выберите язык интерфейса",
+      "en": "Select the interface language"
+    },
+    "first_run.continue": {
+      "ru": "Продолжить",
+      "en": "Continue"
+    },
+    "main.add_instance": {
+      "ru": "Добавить инстанс...",
+      "en": "Add instance..."
+    },
+    "main.settings": {
+      "ru": "Настройки...",
+      "en": "Settings..."
+    },
+    "main.select_instance": {
+      "ru": "Выберите сборку",
+      "en": "Select an instance"
+    },
+    "main.run": {
+      "ru": "Запустить",
+      "en": "Launch"
+    },
+    "main.rename": {
+      "ru": "Переименовать...",
+      "en": "Rename..."
+    },
+    "main.folder": {
+      "ru": "Папка",
+      "en": "Folder"
+    },
+    "main.delete": {
+      "ru": "Удалить",
+      "en": "Delete"
+    },
+    "message.game_running.title": {
+      "ru": "Игра уже запущена",
+      "en": "Game is already running"
+    },
+    "message.game_running.body": {
+      "ru": "Дождитесь завершения текущей игры.",
+      "en": "Wait until the current game exits."
+    },
+    "message.instance_not_selected.title": {
+      "ru": "Сборка не выбрана",
+      "en": "No instance selected"
+    },
+    "message.instance_not_selected.launch": {
+      "ru": "Выберите сборку для запуска.",
+      "en": "Select an instance to launch."
+    },
+    "message.instance_not_selected.delete": {
+      "ru": "Сначала выберите сборку для удаления.",
+      "en": "Select an instance before deleting it."
+    },
+    "message.instance_not_selected.generic": {
+      "ru": "Сначала выберите сборку.",
+      "en": "Select an instance first."
+    },
+    "message.invalid_instance_config": {
+      "ru": "Название сборки или конфигурация некорректны.",
+      "en": "Instance name or configuration is invalid."
+    },
+    "message.invalid_name.title": {
+      "ru": "Некорректное название",
+      "en": "Invalid name"
+    },
+    "message.name_taken.title": {
+      "ru": "Название занято",
+      "en": "Name already used"
+    },
+    "message.name_taken.body": {
+      "ru": "Сборка '{name}' уже существует.",
+      "en": "Instance '{name}' already exists."
+    },
+    "message.delete_confirm.title": {
+      "ru": "Удалить сборку?",
+      "en": "Delete instance?"
+    },
+    "message.delete_confirm.body": {
+      "ru": "Удалить сборку '{name}'? Это действие нельзя отменить.",
+      "en": "Delete instance '{name}'? This action cannot be undone."
+    },
+    "message.rename.title": {
+      "ru": "Переименовать сборку",
+      "en": "Rename instance"
+    },
+    "message.rename.prompt": {
+      "ru": "Новое название:",
+      "en": "New name:"
+    },
+    "message.rename_error.title": {
+      "ru": "Ошибка переименования",
+      "en": "Rename error"
+    },
+    "message.rename_error.body": {
+      "ru": "Не удалось переименовать сборку:\n{error}",
+      "en": "Could not rename instance:\n{error}"
+    },
+    "message.folder_missing.title": {
+      "ru": "Папка не найдена",
+      "en": "Folder not found"
+    },
+    "message.folder_missing.body": {
+      "ru": "Папка выбранной сборки не найдена.",
+      "en": "The selected instance folder was not found."
+    },
+    "message.folder_open_error.title": {
+      "ru": "Ошибка открытия",
+      "en": "Open error"
+    },
+    "message.folder_open_error.body": {
+      "ru": "Не удалось открыть папку сборки.",
+      "en": "Could not open the instance folder."
+    },
+    "add.title": {
+      "ru": "Создать инстанс",
+      "en": "Create instance"
+    },
+    "add.name": {
+      "ru": "Название:",
+      "en": "Name:"
+    },
+    "add.version": {
+      "ru": "Версия:",
+      "en": "Version:"
+    },
+    "add.install_geode": {
+      "ru": "Установить Geode",
+      "en": "Install Geode"
+    },
+    "add.unnamed_version": {
+      "ru": "Без названия",
+      "en": "Untitled"
+    },
+    "validation.name_empty": {
+      "ru": "Название сборки не должно быть пустым.",
+      "en": "Instance name must not be empty."
+    },
+    "validation.dot_name": {
+      "ru": "Название сборки не может быть '.' или '..'.",
+      "en": "Instance name cannot be '.' or '..'."
+    },
+    "validation.absolute_path": {
+      "ru": "Название сборки не должно быть абсолютным путём.",
+      "en": "Instance name must not be an absolute path."
+    },
+    "validation.trailing_space_dot": {
+      "ru": "Название сборки не должно заканчиваться пробелом или точкой.",
+      "en": "Instance name must not end with a space or period."
+    },
+    "validation.invalid_chars": {
+      "ru": "Название сборки содержит запрещённые символы: {chars}",
+      "en": "Instance name contains forbidden characters: {chars}"
+    },
+    "validation.reserved_windows_name": {
+      "ru": "Это системное имя Windows. Его нельзя использовать как название папки.",
+      "en": "This is a reserved Windows name. It cannot be used as a folder name."
+    },
+    "install.window_title": {
+      "ru": "Установка сборки...",
+      "en": "Installing instance..."
+    },
+    "install.preparing": {
+      "ru": "Подготовка к установке...",
+      "en": "Preparing installation..."
+    },
+    "install.done": {
+      "ru": "Готово!",
+      "en": "Done!"
+    },
+    "install.error.title": {
+      "ru": "Ошибка установки",
+      "en": "Installation error"
+    },
+    "install.error.body": {
+      "ru": "Не удалось скачать или распаковать файлы сборки.\nХотите попробовать ещё раз?",
+      "en": "Could not download or unpack the instance files.\nDo you want to try again?"
+    },
+    "install.retrying": {
+      "ru": "Повторная попытка...",
+      "en": "Trying again..."
+    },
+    "install.cancel.title": {
+      "ru": "Прервать установку?",
+      "en": "Cancel installation?"
+    },
+    "install.cancel.body": {
+      "ru": "Файлы этой сборки могут быть повреждены. Остановить установку?",
+      "en": "This instance may be left damaged. Stop the installation?"
+    },
+    "install.status.download_game": {
+      "ru": "Скачивание файлов Geometry Dash...",
+      "en": "Downloading Geometry Dash files..."
+    },
+    "install.status.extract_game": {
+      "ru": "Распаковка",
+      "en": "Extracting"
+    },
+    "install.status.download_geode": {
+      "ru": "Скачивание совместимой версии Geode...",
+      "en": "Downloading a compatible Geode version..."
+    },
+    "install.status.inject_geode": {
+      "ru": "Внедрение Geode",
+      "en": "Injecting Geode"
+    },
+    "install.log.download_game": {
+      "ru": "[*] Скачивание игры: {url}",
+      "en": "[*] Downloading game: {url}"
+    },
+    "install.log.extract_game": {
+      "ru": "[*] Распаковка Geometry Dash...",
+      "en": "[*] Extracting Geometry Dash..."
+    },
+    "install.log.game_extracted": {
+      "ru": "[OK] Файлы игры извлечены.",
+      "en": "[OK] Game files extracted."
+    },
+    "install.log.download_geode": {
+      "ru": "[*] Скачивание Geode: {url}",
+      "en": "[*] Downloading Geode: {url}"
+    },
+    "install.log.extract_geode": {
+      "ru": "[*] Распаковка Geode...",
+      "en": "[*] Extracting Geode..."
+    },
+    "install.log.geode_installed": {
+      "ru": "[OK] Geode установлен.",
+      "en": "[OK] Geode installed."
+    },
+    "install.worker.error": {
+      "ru": "[-] Ошибка установки: {error}",
+      "en": "[-] Installation error: {error}"
+    },
+    "delete.window_title": {
+      "ru": "Удаление сборки...",
+      "en": "Deleting instance..."
+    },
+    "delete.preparing": {
+      "ru": "Подготовка к удалению '{name}'...",
+      "en": "Preparing to delete '{name}'..."
+    },
+    "delete.folder_missing": {
+      "ru": "[-] Папка не найдена.",
+      "en": "[-] Folder not found."
+    },
+    "delete.scanning": {
+      "ru": "Сканирование директории...",
+      "en": "Scanning directory..."
+    },
+    "delete.deleting": {
+      "ru": "Удаление: {name}",
+      "en": "Deleting: {name}"
+    },
+    "delete.success": {
+      "ru": "[+] Сборка '{name}' успешно удалена.",
+      "en": "[+] Instance '{name}' was deleted successfully."
+    },
+    "delete.error": {
+      "ru": "[-] Ошибка удаления: {error}",
+      "en": "[-] Deletion error: {error}"
+    },
+    "settings.title": {
+      "ru": "Настройки",
+      "en": "Settings"
+    },
+    "settings.section.launcher": {
+      "ru": "Лаунчер",
+      "en": "Launcher"
+    },
+    "settings.section.geometry_dash": {
+      "ru": "Geometry Dash",
+      "en": "Geometry Dash"
+    },
+    "settings.tab.system": {
+      "ru": "Система",
+      "en": "System"
+    },
+    "settings.tab.main": {
+      "ru": "Основное",
+      "en": "General"
+    },
+    "settings.group.language": {
+      "ru": "Язык",
+      "en": "Language"
+    },
+    "settings.language_label": {
+      "ru": "Язык интерфейса",
+      "en": "Interface language"
+    },
+    "settings.language_hint": {
+      "ru": "Изменение языка применяется сразу к новым окнам и основным элементам лаунчера.",
+      "en": "The language change is applied immediately to new windows and the main launcher controls."
+    },
+    "settings.group.priority": {
+      "ru": "Приоритет процесса",
+      "en": "Process priority"
+    },
+    "settings.auto_priority": {
+      "ru": "Автоматически задавать приоритет при запуске экземпляра",
+      "en": "Automatically set priority when launching an instance"
+    },
+    "settings.priority_label": {
+      "ru": "Задать приоритет",
+      "en": "Set priority"
+    },
+    "settings.priority_hint": {
+      "ru": "Изменение применяется при следующем запуске экземпляра.",
+      "en": "The change is applied the next time an instance is launched."
+    },
+    "priority.idle": {
+      "ru": "Низкий",
+      "en": "Idle"
+    },
+    "priority.below_normal": {
+      "ru": "Ниже среднего",
+      "en": "Below normal"
+    },
+    "priority.normal": {
+      "ru": "Обычный",
+      "en": "Normal"
+    },
+    "priority.above_normal": {
+      "ru": "Выше среднего",
+      "en": "Above normal"
+    },
+    "priority.high": {
+      "ru": "Высокий",
+      "en": "High"
+    },
+    "priority.realtime": {
+      "ru": "Реального времени",
+      "en": "Realtime"
+    }
+  }
+}
