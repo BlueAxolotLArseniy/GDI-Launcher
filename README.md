@@ -21,7 +21,7 @@ Stop wasting time navigating complex file structures. GDIL puts you in control.
 
 Ready to upgrade your gameplay? Click below to download the latest installer:
 
-[**Download GDI Launcher v1.0.0**](https://github.com/BlueAxolotLArseniy/GDI-Launcher/releases/download/v1.1.0/GDI_Installer.exe)
+[**Download GDI Launcher v1.1.0**](https://github.com/BlueAxolotLArseniy/GDI-Launcher/releases/download/v1.1.0/GDI_Installer.exe)
 
 *Simple. Fast. Built for players.*
 
