@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
+from gdi_launcher.config.manifest import GITHUB_MANIFEST_URL
 from gdi_launcher.config.paths import (
     BASE_ASSETS_DIR,
     INSTANCES_DIR,
@@ -23,3 +24,9 @@ def test_runtime_paths_are_inside_project_in_source_mode() -> None:
     assert INSTANCES_DIR == project_root / "instances"
     assert VERSIONS_FILE == project_root / "versions.json"
 
+
+def test_github_manifest_url_points_to_the_main_branch_raw_file() -> None:
+    assert (
+        GITHUB_MANIFEST_URL
+        == "https://raw.githubusercontent.com/BlueAxolotLArseniy/GDI-Launcher/main/versions.json"
+    )
