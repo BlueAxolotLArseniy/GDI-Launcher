@@ -1,5 +1,8 @@
 from __future__ import annotations
 
+import json
+from pathlib import Path
+
 from gdi_launcher.services.settings_service import AppSettings, SettingsService
 from gdi_launcher.services.translation_service import TranslationService
 
@@ -23,5 +26,25 @@ def test_uses_language_from_settings(tmp_path) -> None:
     service = TranslationService(settings_service)
 
     assert service.t("main.run") == "Launch"
+    assert service.t("common.yes") == "Yes"
+    assert service.t("common.no") == "No"
     assert service.t("message.name_taken.body", name="GD") == "Instance 'GD' already exists."
 
+
+def test_russian_translations_use_instance_terminology() -> None:
+    translations_path = (
+        Path(__file__).resolve().parents[1]
+        / "src"
+        / "gdi_launcher"
+        / "i18n"
+        / "translations.json"
+    )
+    data = json.loads(translations_path.read_text(encoding="utf-8"))
+
+    russian_phrases = [
+        phrase["ru"]
+        for phrase in data["phrases"].values()
+        if isinstance(phrase, dict) and "ru" in phrase
+    ]
+
+    assert not any("сборк" in phrase.lower() for phrase in russian_phrases)

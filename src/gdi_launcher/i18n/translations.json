@@ -16,6 +16,14 @@
       "ru": "OK",
       "en": "OK"
     },
+    "common.yes": {
+      "ru": "Да",
+      "en": "Yes"
+    },
+    "common.no": {
+      "ru": "Нет",
+      "en": "No"
+    },
     "common.cancel": {
       "ru": "Отмена",
       "en": "Cancel"
@@ -41,7 +49,7 @@
       "en": "Continue"
     },
     "main.add_instance": {
-      "ru": "Добавить инстанс...",
+      "ru": "Добавить экземпляр...",
       "en": "Add instance..."
     },
     "main.settings": {
@@ -49,7 +57,7 @@
       "en": "Settings..."
     },
     "main.select_instance": {
-      "ru": "Выберите сборку",
+      "ru": "Выберите экземпляр",
       "en": "Select an instance"
     },
     "main.run": {
@@ -77,23 +85,23 @@
       "en": "Wait until the current game exits."
     },
     "message.instance_not_selected.title": {
-      "ru": "Сборка не выбрана",
+      "ru": "Экземпляр не выбран",
       "en": "No instance selected"
     },
     "message.instance_not_selected.launch": {
-      "ru": "Выберите сборку для запуска.",
+      "ru": "Выберите экземпляр для запуска.",
       "en": "Select an instance to launch."
     },
     "message.instance_not_selected.delete": {
-      "ru": "Сначала выберите сборку для удаления.",
+      "ru": "Сначала выберите экземпляр для удаления.",
       "en": "Select an instance before deleting it."
     },
     "message.instance_not_selected.generic": {
-      "ru": "Сначала выберите сборку.",
+      "ru": "Сначала выберите экземпляр.",
       "en": "Select an instance first."
     },
     "message.invalid_instance_config": {
-      "ru": "Название сборки или конфигурация некорректны.",
+      "ru": "Название экземпляра или конфигурация некорректны.",
       "en": "Instance name or configuration is invalid."
     },
     "message.invalid_name.title": {
@@ -105,19 +113,19 @@
       "en": "Name already used"
     },
     "message.name_taken.body": {
-      "ru": "Сборка '{name}' уже существует.",
+      "ru": "Экземпляр '{name}' уже существует.",
       "en": "Instance '{name}' already exists."
     },
     "message.delete_confirm.title": {
-      "ru": "Удалить сборку?",
+      "ru": "Удалить экземпляр?",
       "en": "Delete instance?"
     },
     "message.delete_confirm.body": {
-      "ru": "Удалить сборку '{name}'? Это действие нельзя отменить.",
+      "ru": "Удалить экземпляр '{name}'? Это действие нельзя отменить.",
       "en": "Delete instance '{name}'? This action cannot be undone."
     },
     "message.rename.title": {
-      "ru": "Переименовать сборку",
+      "ru": "Переименовать экземпляр",
       "en": "Rename instance"
     },
     "message.rename.prompt": {
@@ -129,7 +137,7 @@
       "en": "Rename error"
     },
     "message.rename_error.body": {
-      "ru": "Не удалось переименовать сборку:\n{error}",
+      "ru": "Не удалось переименовать экземпляр:\n{error}",
       "en": "Could not rename instance:\n{error}"
     },
     "message.folder_missing.title": {
@@ -137,7 +145,7 @@
       "en": "Folder not found"
     },
     "message.folder_missing.body": {
-      "ru": "Папка выбранной сборки не найдена.",
+      "ru": "Папка выбранного экземпляра не найдена.",
       "en": "The selected instance folder was not found."
     },
     "message.folder_open_error.title": {
@@ -145,7 +153,7 @@
       "en": "Open error"
     },
     "message.folder_open_error.body": {
-      "ru": "Не удалось открыть папку сборки.",
+      "ru": "Не удалось открыть папку экземпляра.",
       "en": "Could not open the instance folder."
     },
     "add.title": {
@@ -169,23 +177,23 @@
       "en": "Untitled"
     },
     "validation.name_empty": {
-      "ru": "Название сборки не должно быть пустым.",
+      "ru": "Название экземпляра не должно быть пустым.",
       "en": "Instance name must not be empty."
     },
     "validation.dot_name": {
-      "ru": "Название сборки не может быть '.' или '..'.",
+      "ru": "Название экземпляра не может быть '.' или '..'.",
       "en": "Instance name cannot be '.' or '..'."
     },
     "validation.absolute_path": {
-      "ru": "Название сборки не должно быть абсолютным путём.",
+      "ru": "Название экземпляра не должно быть абсолютным путём.",
       "en": "Instance name must not be an absolute path."
     },
     "validation.trailing_space_dot": {
-      "ru": "Название сборки не должно заканчиваться пробелом или точкой.",
+      "ru": "Название экземпляра не должно заканчиваться пробелом или точкой.",
       "en": "Instance name must not end with a space or period."
     },
     "validation.invalid_chars": {
-      "ru": "Название сборки содержит запрещённые символы: {chars}",
+      "ru": "Название экземпляра содержит запрещённые символы: {chars}",
       "en": "Instance name contains forbidden characters: {chars}"
     },
     "validation.reserved_windows_name": {
@@ -193,7 +201,7 @@
       "en": "This is a reserved Windows name. It cannot be used as a folder name."
     },
     "install.window_title": {
-      "ru": "Установка сборки...",
+      "ru": "Установка экземпляра...",
       "en": "Installing instance..."
     },
     "install.preparing": {
@@ -209,7 +217,7 @@
       "en": "Installation error"
     },
     "install.error.body": {
-      "ru": "Не удалось скачать или распаковать файлы сборки.\nХотите попробовать ещё раз?",
+      "ru": "Не удалось скачать или распаковать файлы экземпляра.\nХотите попробовать ещё раз?",
       "en": "Could not download or unpack the instance files.\nDo you want to try again?"
     },
     "install.retrying": {
@@ -221,7 +229,7 @@
       "en": "Cancel installation?"
     },
     "install.cancel.body": {
-      "ru": "Файлы этой сборки могут быть повреждены. Остановить установку?",
+      "ru": "Файлы этого экземпляра могут быть повреждены. Остановить установку?",
       "en": "This instance may be left damaged. Stop the installation?"
     },
     "install.status.download_game": {
@@ -269,7 +277,7 @@
       "en": "[-] Installation error: {error}"
     },
     "delete.window_title": {
-      "ru": "Удаление сборки...",
+      "ru": "Удаление экземпляра...",
       "en": "Deleting instance..."
     },
     "delete.preparing": {
@@ -289,7 +297,7 @@
       "en": "Deleting: {name}"
     },
     "delete.success": {
-      "ru": "[+] Сборка '{name}' успешно удалена.",
+      "ru": "[+] Экземпляр '{name}' успешно удален.",
       "en": "[+] Instance '{name}' was deleted successfully."
     },
     "delete.error": {

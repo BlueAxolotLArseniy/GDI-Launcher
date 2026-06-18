@@ -30,6 +30,7 @@ from gdi_launcher.services.translation_service import TranslationService
 from gdi_launcher.ui.dialogs.add_instance_dialog import AddInstanceDialog
 from gdi_launcher.ui.dialogs.delete_progress_dialog import DeleteProgressDialog
 from gdi_launcher.ui.dialogs.install_progress_dialog import InstallProgressDialog
+from gdi_launcher.ui.dialogs.message_box import ask_yes_no
 from gdi_launcher.ui.dialogs.settings_dialog import SettingsDialog
 from gdi_launcher.ui.widgets.action_row_button import ActionRowButton
 from gdi_launcher.ui.widgets.instance_card import InstanceCard
@@ -362,14 +363,14 @@ class GDIMainWindow(QMainWindow):
             return
 
         instance_name = self.selected_card.instance_name
-        reply = QMessageBox.question(
+        should_delete = ask_yes_no(
             self,
             self.tr("message.delete_confirm.title"),
             self.tr("message.delete_confirm.body", name=instance_name),
-            QMessageBox.Yes | QMessageBox.No,
-            QMessageBox.No,
+            self.tr("common.yes"),
+            self.tr("common.no"),
         )
-        if reply != QMessageBox.Yes:
+        if not should_delete:
             return
 
         target_dir = self.instance_service.get_instance_path(instance_name)

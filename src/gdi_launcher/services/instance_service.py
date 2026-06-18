@@ -38,11 +38,11 @@ RESERVED_WINDOWS_NAMES = frozenset(
 Translator = Callable[..., str]
 
 DEFAULT_VALIDATION_MESSAGES = {
-    "validation.name_empty": "Название сборки не должно быть пустым.",
-    "validation.dot_name": "Название сборки не может быть '.' или '..'.",
-    "validation.absolute_path": "Название сборки не должно быть абсолютным путём.",
-    "validation.trailing_space_dot": "Название сборки не должно заканчиваться пробелом или точкой.",
-    "validation.invalid_chars": "Название сборки содержит запрещённые символы: {chars}",
+    "validation.name_empty": "Название экземпляра не должно быть пустым.",
+    "validation.dot_name": "Название экземпляра не может быть '.' или '..'.",
+    "validation.absolute_path": "Название экземпляра не должно быть абсолютным путём.",
+    "validation.trailing_space_dot": "Название экземпляра не должно заканчиваться пробелом или точкой.",
+    "validation.invalid_chars": "Название экземпляра содержит запрещённые символы: {chars}",
     "validation.reserved_windows_name": "Это системное имя Windows. Его нельзя использовать как название папки.",
 }
 

@@ -11,6 +11,7 @@ from PySide6.QtWidgets import (
 )
 
 from gdi_launcher.services.translation_service import TranslationService
+from gdi_launcher.ui.dialogs.message_box import ask_yes_no
 from gdi_launcher.workers.install_worker import InstallWorker
 
 
@@ -93,15 +94,15 @@ class InstallProgressDialog(QDialog):
             event.accept()
             return
 
-        reply = QMessageBox.question(
+        should_cancel = ask_yes_no(
             self,
             self.tr("install.cancel.title"),
             self.tr("install.cancel.body"),
-            QMessageBox.Yes | QMessageBox.No,
-            QMessageBox.No,
+            self.tr("common.yes"),
+            self.tr("common.no"),
         )
 
-        if reply != QMessageBox.Yes:
+        if not should_cancel:
             event.ignore()
             return
 
